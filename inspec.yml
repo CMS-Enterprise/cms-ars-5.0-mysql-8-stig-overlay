@@ -1,0 +1,97 @@
+name: cms-ars-5.0-oracle-mysql-8-stig-overlay
+title: cms-ars-5.0-oracle-mysql-8-stig-overlay
+maintainer: CMS SAF Team
+copyright: 
+copyright_email: saf@cms.hhs.gov
+license: Apache-2.0
+summary: CMS ARS 5.0 Overlay InSpec Validation Profile for Oracle MySQL 8.0 STIG
+version: 1.1.0
+inspec_version: ">= 4.0"
+
+depends:
+  - name: oracle-mysql-8-stig-baseline
+    url: https://github.com/mitre/oracle-mysql-8-stig-baseline/archive/main.tar.gz
+
+inputs:
+  - name: system_categorization
+    desc: "Selected system baseline based on the environment variable"
+    type: String
+    value: <%= ENV['BASELINE'].nil? ? 'Moderate (Default)' : ENV['BASELINE'] %> 
+
+  - name: overlay_controls
+    description: 'List of inapplicable controls/requirements in ARS 5.0 based on the system categorization'
+    type: Array
+    <% if ENV['BASELINE'] == 'High-HVA' %>
+    value:
+      - "SV-235180" # AC - 6 (8)
+    <% elsif ENV['BASELINE'] == 'High' %>
+    value: 
+      - "SV-235180" # AC - 6 (8)
+    <% elsif ENV['BASELINE'] == 'Moderate-HVA' %>
+    value:
+      - "SV-235180" # AC - 6 (8)
+      - "SV-235096" # AC - 10
+      - "SV-235175" # AU - 5 (1)
+      - "SV-235176" # AU - 5 (2)
+      - "SV-235169" # CM - 5 (1)
+      - "SV-235170" # CM - 5 (1)
+    <% elsif ENV['BASELINE'] == 'Moderate' || ENV['BASELINE'].nil? %> # Default
+    value: 
+      - "SV-235180" # AC - 6 (8)
+      - "SV-235096" # AC - 10
+      - "SV-235175" # AU - 5 (1)
+      - "SV-235176" # AU - 5 (2)
+      - "SV-235102" # AU - 10
+      - "SV-235169" # CM - 5 (1)
+      - "SV-235170" # CM - 5 (1)
+      - "SV-235151" # SC - 3
+    <% elsif ENV['BASELINE'] == 'Low-HVA' %>
+    value:
+      - "SV-235095" # AC - 2 (1)
+      - "SV-235180" # AC - 6 (8) 
+      - "SV-235181" # AC - 6 (10)
+      - "SV-235096" # AC - 10
+      - "SV-235185" # AC - 12
+      - "SV-235098" # AU - 3 (1)
+      - "SV-235175" # AU - 5 (1)
+      - "SV-235176" # AU - 5 (2)
+      - "SV-235169" # CM - 5 (1)
+      - "SV-235170" # CM - 5 (1)
+      - "SV-235134" # IA - 5 (2)
+      - "SV-235135" # IA - 5 (2)
+      - "SV-235136" # IA - 5 (2)
+      - "SV-235150" # SC - 2
+      - "SV-235152" # SC - 4
+      - "SV-235153" # SC - 4
+      - "SV-235156" # SI - 10
+      - "SV-235157" # SI - 10
+      - "SV-235158" # SI - 10
+    <% elsif ENV['BASELINE'] == 'Low' %>
+    value:
+      - "SV-235095" # AC - 2 (1)
+      - "SV-235180" # AC - 6 (8)
+      - "SV-235181" # AC - 6 (10)
+      - "SV-235096" # AC - 10
+      - "SV-235185" # AC - 12
+      - "SV-235098" # AU - 3 (1)
+      - "SV-235175" # AU - 5 (1)
+      - "SV-235176" # AU - 5 (2)
+      - "SV-235102" # AU - 10
+      - "SV-235169" # CM - 5 (1)
+      - "SV-235170" # CM - 5 (1)
+      - "SV-235167" # CM - 7 (1)
+      - "SV-235134" # IA - 5 (2)
+      - "SV-235135" # IA - 5 (2)
+      - "SV-235136" # IA - 5 (2)
+      - "SV-235150" # SC - 2
+      - "SV-235151" # SC - 3
+      - "SV-235152" # SC - 4
+      - "SV-235153" # SC - 4
+      - "SV-235155" # SC - 28
+      - "SV-235192" # SC - 28 (1)
+      - "SV-235193" # SC - 28 (1)
+      - "SV-235156" # SI - 10
+      - "SV-235157" # SI - 10
+      - "SV-235158" # SI - 10
+    <% end %>
+  
