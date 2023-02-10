@@ -19,7 +19,7 @@ inputs:
     value: <%= ENV['BASELINE'].nil? ? 'Moderate (Default)' : ENV['BASELINE'] %> 
 
   - name: overlay_controls
-    description: 'List of inapplicable controls/requirements in ARS 5.0 based on the system categorization'
+    desc: 'List of inapplicable controls/requirements in ARS 5.0 based on the system categorization'
     type: Array
     <% if ENV['BASELINE'] == 'High-HVA' %>
     value:
