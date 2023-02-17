@@ -18,6 +18,14 @@ inputs:
     type: String
     value: <%= ENV['BASELINE'].nil? ? 'Moderate (Default)' : ENV['BASELINE'] %> 
 
+  - name: max_user_connections
+    desc: 'max user connections allowed'
+    type: Numeric
+    <% if ENV['BASELINE'] == 'High-HVA' || ENV['BASELINE'] == 'High' %>
+    value: 1
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
   - name: overlay_controls
     desc: 'List of inapplicable controls/requirements in ARS 5.0 based on the system categorization'
     type: Array
