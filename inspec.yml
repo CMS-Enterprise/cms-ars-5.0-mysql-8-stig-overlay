@@ -26,6 +26,11 @@ inputs:
     <% end %>
     profile: oracle-mysql-8-stig-baseline
 
+  - name: org_appoved_cert_issuer
+    desc: 'Name of the documented server cert issuer.'
+    type: String
+    required: True
+
   - name: overlay_controls
     desc: 'List of inapplicable controls/requirements in ARS 5.0 based on the system categorization'
     type: Array

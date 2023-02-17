@@ -2,6 +2,7 @@ overlay_controls = input('overlay_controls')
 system_categorization = input('system_categorization')
 
 include_controls 'oracle-mysql-8-stig-baseline' do
+
 ## NA due to the requirement not included in CMS ARS 5.0
     unless overlay_controls.empty?
         overlay_controls.each do |overlay_control|
