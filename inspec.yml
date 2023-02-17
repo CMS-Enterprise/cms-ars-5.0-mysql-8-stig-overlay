@@ -18,7 +18,14 @@ inputs:
     type: String
     value: <%= ENV['BASELINE'].nil? ? 'Moderate (Default)' : ENV['BASELINE'] %> 
 
-  - name: max_user_connections
+  - name: org_appoved_cert_issuer # SV-235134
+    desc: 'Name of the documented server cert issuer.'
+    type: String
+     <% if ['High-HVA', 'High', 'Moderate-HVA', 'Moderate'].include? ENV['BASELINE'] %>
+    required: True
+    <% end %>
+
+  - name: max_user_connections # SV-235096
     desc: 'max user connections allowed'
     type: Numeric
     <% if ENV['BASELINE'] == 'High-HVA' || ENV['BASELINE'] == 'High' %>
@@ -26,10 +33,13 @@ inputs:
     <% end %>
     profile: oracle-mysql-8-stig-baseline
 
-  - name: org_appoved_cert_issuer
-    desc: 'Name of the documented server cert issuer.'
-    type: String
-    required: True
+  - name: max_audit_record_storage # SV-235175
+    desc: 'Allocated percentage of max audit record storage that leads to a warning'
+    type: Numeric
+    <% if ENV['BASELINE'] == 'High-HVA' || ENV['BASELINE'] == 'High' %>
+    value: 80
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
 
   - name: overlay_controls
     desc: 'List of inapplicable controls/requirements in ARS 5.0 based on the system categorization'
