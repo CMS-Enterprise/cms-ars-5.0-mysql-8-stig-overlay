@@ -89,6 +89,14 @@ inputs:
     <% end %>
     profile: oracle-mysql-8-stig-baseline
 
+  - name: max_password_lifetime # SV-235137
+    desc: "Number of days that defined the password lifetime"
+    type: Numeric
+    <% if ['High-HVA', 'Moderate-HVA', 'Low-HVA'].include? ENV['BASELINE'] %>
+    value: 60
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
   - name: org_guidance # SV-235142 SV-235194
     desc: "Name of the organization that provides security configuration and implementation guidance"
     type: String
