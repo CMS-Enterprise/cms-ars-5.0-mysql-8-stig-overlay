@@ -81,6 +81,14 @@ inputs:
     <% end %>
     profile: oracle-mysql-8-stig-baseline
 
+  - name: password_history # SV-235137
+    desc: "Number of subsequent account password changes that must occur before the password can be reused"
+    type: Numeric
+    <% if ['High-HVA', 'Moderate-HVA', 'Low-HVA'].include? ENV['BASELINE'] %>
+    value: 4294967295
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
   - name: org_guidance # SV-235142 SV-235194
     desc: "Name of the organization that provides security configuration and implementation guidance"
     type: String
