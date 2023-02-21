@@ -18,7 +18,7 @@ inputs:
     type: String
     value: <%= ENV['BASELINE'].nil? ? 'Moderate (Default)' : ENV['BASELINE'] %> 
 
-  - name: org_approved_cert_issuer # SV-235134
+  - name: org_approved_cert_issuer # SV-235134 SV-235139 SV-235187 SV-235191
     desc: 'Name of the documented server cert issuer.'
     type: String
      <% if ['High-HVA', 'High', 'Moderate-HVA', 'Moderate'].include? ENV['BASELINE'] %>
