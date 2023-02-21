@@ -20,6 +20,10 @@ include_controls 'oracle-mysql-8-stig-baseline' do
     desc  "Configuring the Database Management System (DBMS) to implement organization-wide security implementation guides and security checklists ensures compliance with federal standards and establishes a common security baseline across #{input('org_name')} that reflects the most restrictive security posture consistent with operational requirements."
   end
 
+  control 'SV-235146' do
+    title "The MySQL Database Server 8.0 must be configured to prohibit or restrict the use of organization-defined functions, ports, protocols, and/or services."
+  end
+
   control 'SV-235167' do
     title "The MySQL Database Server 8.0 must disable network functions, ports, protocols, and services deemed by the organization to be nonsecure."
     desc 'fix', "Disable each prohibited network function, port, protocol, or service.
@@ -44,8 +48,9 @@ include_controls 'oracle-mysql-8-stig-baseline' do
     Additionally the X Plugin can be disabled at startup/restart by either setting mysqlx=0 in the MySQL configuration file, or by passing in either \"--mysqlx=0\" or \"--skip-mysqlx\" when starting the MySQL server."
   end
 
-  control 'SV-235146' do
-    title "The MySQL Database Server 8.0 must be configured to prohibit or restrict the use of organization-defined functions, ports, protocols, and/or services."
+  control 'SV-235194' do
+    title "Security-relevant software updates to the MySQL Database Server 8.0 must be installed within the time period directed by CMS ARS."
+    desc  "Security flaws with software applications, including database management systems, are discovered daily. Vendors are constantly updating and patching their products to address newly discovered security vulnerabilities. Organizations (including any contractor to the organization) are required to promptly install security-relevant software updates (e.g., patches, service packs, and hot fixes). Flaws discovered during security assessments, continuous monitoring, incident response activities, or information system error handling must also be addressed expeditiously."
   end
 
   ## NA due to the requirement not included in CMS ARS 5.0
