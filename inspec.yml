@@ -21,7 +21,7 @@ inputs:
   - name: org_approved_cert_issuer # SV-235134 SV-235139 SV-235187 SV-235191
     desc: 'Name of the documented server cert issuer.'
     type: String
-    <% if ['High-HVA', 'High', 'Moderate-HVA', 'Moderate'].include? ENV['BASELINE'] %>
+    <% if ['High-HVA', 'High', 'Moderate-HVA', 'Moderate'].include? ENV['BASELINE'] || ENV['BASELINE'].nil? %>
     required: True
     <% end %>
 
@@ -46,18 +46,38 @@ inputs:
     type: Numeric
     <% if ['High-HVA', 'Moderate-HVA', 'Low-HVA'].include? ENV['BASELINE'] %>
     value: 20
-    <% elsif ['High', 'Moderate', 'Low'].include? ENV['BASELINE'] %>
+    <% elsif ['High', 'Moderate', 'Low'].include? ENV['BASELINE'] || ENV['BASELINE'].nil? %>
     value: 15 # same as the baseline parameter (Feb 2023)
     <% end %>
     profile: oracle-mysql-8-stig-baseline
 
   - name: password_mixed_case_count # SV-235137
-    desc: "Mixed case count required in the password"
+    desc: "Count of uppercase and lowercase characters required in the password. The password must have that many lowercase characters, and that many uppercase characters"
     type: Numeric
     <% if ['High-HVA', 'Moderate-HVA', 'Low-HVA', 'High'].include? ENV['BASELINE'] %>
     value: 3
-    <% elsif ['Moderate', 'Low'].include? ENV['BASELINE'] %>
+    <% elsif ['Moderate', 'Low'].include? ENV['BASELINE'] || ENV['BASELINE'].nil? %>
     value: 1 # same as the baseline parameter (Feb 2023)
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
+  - name: password_number_count # SV-235137
+    desc: "Count of numeric characters required in the password"
+    type: Numeric
+    <% if ['High-HVA', 'Moderate-HVA', 'Low-HVA'].include? ENV['BASELINE'] %>
+    value: 0
+    <% elsif ['High'].include? ENV['BASELINE'] %>
+    value: 3
+    <% elsif ['Moderate', 'Low'].include? ENV['BASELINE'] || ENV['BASELINE'].nil? %>
+    value: 1 # same as the baseline parameter (Feb 2023)
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
+  - name: password_special_character_count # SV-235137
+    desc: "Count of special characters required in the password"
+    type: Numeric
+    <% if ['High-HVA', 'Moderate-HVA', 'Low-HVA', 'High', 'Moderate', 'Low'].include? ENV['BASELINE'] || ENV['BASELINE'].nil? %>
+    value: 0
     <% end %>
     profile: oracle-mysql-8-stig-baseline
 
