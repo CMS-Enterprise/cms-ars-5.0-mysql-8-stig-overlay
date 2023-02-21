@@ -16,8 +16,12 @@ include_controls 'oracle-mysql-8-stig-baseline' do
 
   ## Semantic changes
 
+  control 'SV-235142' do
+    desc  "Configuring the Database Management System (DBMS) to implement organization-wide security implementation guides and security checklists ensures compliance with federal standards and establishes a common security baseline across #{input('org_name')} that reflects the most restrictive security posture consistent with operational requirements."
+  end
+
   control 'SV-235167' do
-    title "The MySQL Database Server 8.0 must disable network functions, ports, protocols, and services deemed by the organization to be nonsecure, in accord with the Ports, Protocols, and Services Management (PPSM) guidance."
+    title "The MySQL Database Server 8.0 must disable network functions, ports, protocols, and services deemed by the organization to be nonsecure."
     desc 'fix', "Disable each prohibited network function, port, protocol, or service.
 
     Change mysql options related to network, ports, and protocols for the server and additionally consider refining further at user account level.
