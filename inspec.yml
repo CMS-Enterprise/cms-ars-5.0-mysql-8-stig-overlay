@@ -41,6 +41,12 @@ inputs:
     <% end %>
     profile: oracle-mysql-8-stig-baseline
 
+  - name: org_guidance # SV-235142 SV-235194
+    desc: "Name of the organization that provides security configuration and implementation guidance"
+    type: String
+    value: "CMS ARS 5 CM-06 guidance"
+    profile: oracle-mysql-8-stig-baseline
+
   - name: overlay_controls
     desc: 'List of inapplicable controls/requirements in ARS 5.0 based on the system categorization'
     type: Array
