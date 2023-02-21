@@ -51,6 +51,16 @@ inputs:
     <% end %>
     profile: oracle-mysql-8-stig-baseline
 
+  - name: mixed_case_count # SV-235137
+    desc: "Mixed case count required in the password"
+    type: Numeric
+    <% if ['High-HVA', 'Moderate-HVA', 'Low-HVA', 'High'].include? ENV['BASELINE'] %>
+    value: 3
+    <% elsif ['Moderate', 'Low'].include? ENV['BASELINE'] %>
+    value: 1 # same as the baseline parameter (Feb 2023)
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
   - name: org_guidance # SV-235142 SV-235194
     desc: "Name of the organization that provides security configuration and implementation guidance"
     type: String
