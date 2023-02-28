@@ -1,7 +1,6 @@
 # cms-ars-5.0-oracle-mysql-8-stig-overlay
 
-InSpec profile overlay to validate the secure configuration of Oracle MySQL 8 against the Oracle MySQL 8 Benchmark version 1.0.0 [CIS](https://www.cisecurity.org/cis-benchmarks/)
- tailored for CMS ARS 5.0.
+InSpec profile overlay to validate the secure configuration of Oracle MySQL 8 against [DISA's](https://public.cyber.mil/stigs/) Oracle MySQL 8 Benchmark version 1.0.0 tailored for CMS ARS 5.0.
 
 ## Getting Started  
 ### InSpec (CINC-auditor) setup
@@ -118,14 +117,14 @@ When the __"runner"__ host uses this profile overlay for the first time, follow 
 mkdir profiles
 cd profiles
 git clone https://github.com/cms-enterprise/cms-ars-5.0-oracle-mysql-8-stig-overlay.git
-cinc-auditor archive cms-ars-5.0-oracle-19c-cis-overlay
+cinc-auditor archive cms-ars-5.0-oracle-mysql-8-stig-overlay
 cinc-auditor exec <name of generated archive> --input-file=<path_to_your_inputs_file/name_of_your_inputs_file.yml> --reporter=cli json:<path_to_your_output_file/name_of_your_output_file.json>
 ```
 
 For every successive run, follow these steps to always have the latest version of this overlay and dependent profiles:
 
 ```
-cd cms-ars-5.0-oracle-19c-cis-overlay
+cd cms-ars-5.0-oracle-mysql-8-stig-overlay
 git pull
 cd ..
 cinc-auditor archive cms-ars-5.0-oracle-mysql-8-stig-overlay --overwrite
@@ -146,7 +145,7 @@ The JSON InSpec results file may also be loaded into a __[full heimdall server](
 * Shivani Karikar - [karikarshivani](https://github.com/karikarshivani)
 
 ## Contributing and Getting Help
-To report a bug or feature request, please open an [issue](https://github.com/cms-enterprise/cms-ars-5.0-oracle-19c-cis-overlay/issues/new).
+To report a bug or feature request, please open an [issue](https://github.com/cms-enterprise/cms-ars-5.0-oracle-mysql-8-stig-overlay/issues/new).
 
 ### NOTICE
 
@@ -168,4 +167,4 @@ For further information, please contact The MITRE Corporation, Contracts Managem
 
 ### NOTICE 
 
-CIS Benchmarks are published by the Center for Internet Security (CIS), see: https://www.cisecurity.org/cis-benchmarks/.
+Defense Information Systems Agency (DISA) STIGs are published at: https://public.cyber.mil/stigs/
