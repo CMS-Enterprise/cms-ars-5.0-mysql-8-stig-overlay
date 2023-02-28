@@ -18,6 +18,11 @@ inputs:
     type: String
     value: <%= ENV['BASELINE'].nil? ? 'Moderate (Default)' : ENV['BASELINE'] %> 
 
+  - name: org_name
+    desc: "Name of the organization running this profile"
+    type: string
+    value: "CMS"
+
   - name: org_approved_cert_issuer # SV-235134 SV-235139 SV-235187 SV-235191
     desc: 'Name of the documented server cert issuer.'
     type: String
