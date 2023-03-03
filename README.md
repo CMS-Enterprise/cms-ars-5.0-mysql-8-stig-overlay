@@ -1,6 +1,6 @@
 # cms-ars-5.0-oracle-mysql-8-stig-overlay
 
-InSpec profile overlay to validate the secure configuration of Oracle MySQL 8 against [DISA's](https://public.cyber.mil/stigs/) Oracle MySQL 8 Benchmark version 1.0.0 tailored for CMS ARS 5.0.
+InSpec profile overlay to validate the secure configuration of Oracle MySQL 8 against [DISA's](https://public.cyber.mil/stigs/) Oracle MySQL 8 STIG Version 1 Release 1 tailored for CMS ARS 5.0.
 
 ## Getting Started  
 ### InSpec (CINC-auditor) setup
@@ -45,36 +45,95 @@ $env:BASELINE="High"
 
 The following inputs must be configured in an inputs ".yml" file for the profile to run correctly for your specific environment. More information about InSpec inputs can be found in the [InSpec Profile Documentation](https://www.inspec.io/docs/reference/profiles/).
 
-### Example Inputs You Can Use
+### Inputs You May Tailor (with *example* values you should tailor to your environment):
 
 ```yaml
 
-# Description: 'database user name'
-user: 'SYSTEM'
+#Description: privileged account username MySQL DB Server
+#Value Type: string
+user: root
 
-# Description: 'database password'
-password: 'password'
+#Description: password specified user
+#Value Type: string
+password: mysqlrootpass
 
-# Description: 'database hostname'
-host: '127.0.0.1'
+#Description: hostname of MySQL DB Server
+#Value Type:
+host: localhost
 
-# Description: 'service name'
-service: 'ORCLCDB'
+#Description: port MySQL DB Server
+#Value Type: numeric
+port: 3306
 
-# Description: 'Path of sqlplus binary on the runner'
-sqlplus_bin: 'sqlplus'
+#Description: Wildcard based path to list all audit log files
+#Value Type: string
+audit_log_path: /var/lib/mysql/audit*log*
 
-# Description: 'Path of listener.ora on the runner'
-listener_file: /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+#Description: List of documented audit admin accounts.
+#Value Type: array
+audit_admins: ["'root'@'localhost'", "'root'@'%'"]
 
-# Description: 'Flag to indicate whether the database is multi-tenant or single-tenant'
-multitenant: false
+#Description: Name of the documented server cert issuer.
+#Value Type: string
+org_appoved_cert_issuer: CMS Root CA
 
-# Description: 'Expected version for Oracle database'
-version: '19.0.0.0.0'
+#Description: List of documented accounts exempted from PKI authentication.
+#Value Type: array
+pki_exception_users: ["healthchecker"]
 
-# Description: 'List of listener interface names defined in listener.ora'
-listeners: ['LISTENER']
+#Description: List of documented accounts allowed to login with password.
+#Value Type: array
+authorized_password_users: ["healthchecker"]
+
+#Description: List of documented mysql accounts with administrative previlleges.
+#Value Type: array
+mysql_administrative_users: ["root"]
+
+#Description: List of documented mysql administrative role grantees
+#Value Type: array
+mysql_administrative_grantees: ["'root'@'localhost'"]
+
+#Description: List of approved Plugins
+#Value Type: array
+approved_plugins: ["audit_log"]
+
+#Description: List of approved components
+#Value Type: array
+approved_components: ["file://component_validate_password"]
+
+#Description: Authorized MySQL port definitions
+#Value Type: Hash
+mysql_ports:
+  port: 3306
+  admin_port: 33062
+  mysqlx_port: 33060
+
+#Description: Authorized MySQL socket definitions
+#Value Type: Hash
+mysql_sockets:
+  socket: '/var/lib/mysql/mysql.sock'
+  mysqlx_socket: '/var/run/mysqld/mysqlx.sock'
+
+#Description: Location of the my.cnf file
+#Value Type: string
+mycnf: /etc/my.cnf
+
+#Description: Location of the mysqld-auto.cnf file
+#Value Type: string
+mysqld_auto_cnf: /var/lib/mysql/auto.cnf
+
+#Description: Location of the mysqld-auto.cnf file
+#Value Type: array
+authorized_procedures: []
+
+#Description: Location of the mysqld-auto.cnf file
+#Value Type: array
+authorized_functions: []
+
+#Description: Approved minimum version of MySQL
+#Value Type: string
+minimum_mysql_version: 8.0.25
+
 
 ```
 
