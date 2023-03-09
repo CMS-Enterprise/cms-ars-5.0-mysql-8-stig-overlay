@@ -141,7 +141,7 @@ minimum_mysql_version: 8.0.25
 
 Against a remote target using ssh (i.e., cinc-auditor installed on a separate runner host)
 ```bash
-cinc-auditor exec https://github.com/cms-enterprise/cms-ars-5.0-oracle-mysql-8-stig-overlay/archive/main.tar.gz -t ssh://<username>:TARGET_PASSWORD@TARGET_IP:TARGET_PORT --input-file <path_to_your_input_file/name_of_your_input_file.yml> --reporter=cli json:<path_to_your_output_file/name_of_your_output_file.json> 
+cinc-auditor exec https://github.com/cms-enterprise/cms-ars-5.0-oracle-mysql-8-stig-overlay/archive/main.tar.gz -t ssh://<target_username>:<target_password>@<target_ip>:<target_port> --input-file <path_to_your_input_file/name_of_your_input_file.yml> --reporter=cli json:<path_to_your_output_file/name_of_your_output_file.json> 
 ```
 
 Against a remote target using a pem key (i.e., cinc-auditor installed on a separate runner host)
