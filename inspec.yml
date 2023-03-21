@@ -1,0 +1,188 @@
+name: cms-ars-5.0-oracle-mysql-8-stig-overlay
+title: cms-ars-5.0-oracle-mysql-8-stig-overlay
+maintainer: CMS SAF Team
+copyright: 
+copyright_email: saf@cms.hhs.gov
+license: Apache-2.0
+summary: CMS ARS 5.0 Overlay InSpec Validation Profile for Oracle MySQL 8.0 STIG
+version: 1.1.0
+inspec_version: ">= 4.0"
+
+depends:
+  - name: oracle-mysql-8-stig-baseline
+    url: https://github.com/mitre/oracle-mysql-8-stig-baseline/archive/main.tar.gz
+
+inputs:
+  - name: system_categorization
+    desc: "Selected system baseline based on the environment variable"
+    type: String
+    value: <%= ENV['BASELINE'].nil? ? 'Moderate (Default)' : ENV['BASELINE'] %> 
+
+  - name: org_name
+    desc: "Name of the organization running this profile"
+    type: string
+    value: "CMS"
+    profile: oracle-mysql-8-stig-baseline
+
+  - name: org_approved_cert_issuer # SV-235134 SV-235139 SV-235187 SV-235191
+    desc: 'Name of the documented server cert issuer.'
+    type: String
+    <% if ['High-HVA', 'High', 'Moderate-HVA', 'Moderate'].include? ENV['BASELINE'] || ENV['BASELINE'].nil? %>
+    required: True
+    <% end %>
+
+  - name: max_user_connections # SV-235096
+    desc: 'max user connections allowed'
+    type: Numeric
+    <% if ENV['BASELINE'] == 'High-HVA' || ENV['BASELINE'] == 'High' %>
+    value: 1
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
+  - name: max_audit_record_storage # SV-235175
+    desc: 'Allocated percentage of max audit record storage that leads to a warning'
+    type: Numeric
+    <% if ENV['BASELINE'] == 'High-HVA' || ENV['BASELINE'] == 'High' %>
+    value: 80
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
+  - name: min_password_length # SV-235137
+    desc: "Minimum password length"
+    type: Numeric
+    <% if ['High-HVA', 'Moderate-HVA', 'Low-HVA'].include? ENV['BASELINE'] %>
+    value: 20
+    <% elsif ['High', 'Moderate', 'Low'].include? ENV['BASELINE'] || ENV['BASELINE'].nil? %>
+    value: 15 # same as the baseline parameter (Feb 2023)
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
+  - name: password_mixed_case_count # SV-235137
+    desc: "Count of uppercase and lowercase characters required in the password. The password must have that many lowercase characters, and that many uppercase characters"
+    type: Numeric
+    <% if ['High-HVA', 'Moderate-HVA', 'Low-HVA', 'High'].include? ENV['BASELINE'] %>
+    value: 3
+    <% elsif ['Moderate', 'Low'].include? ENV['BASELINE'] || ENV['BASELINE'].nil? %>
+    value: 1 # same as the baseline parameter (Feb 2023)
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
+  - name: password_number_count # SV-235137
+    desc: "Count of numeric characters required in the password"
+    type: Numeric
+    <% if ['High-HVA', 'Moderate-HVA', 'Low-HVA'].include? ENV['BASELINE'] %>
+    value: 0
+    <% elsif ['High'].include? ENV['BASELINE'] %>
+    value: 3
+    <% elsif ['Moderate', 'Low'].include? ENV['BASELINE'] || ENV['BASELINE'].nil? %>
+    value: 1 # same as the baseline parameter (Feb 2023)
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
+  - name: password_special_character_count # SV-235137
+    desc: "Count of special characters required in the password"
+    type: Numeric
+    <% if ['High-HVA', 'Moderate-HVA', 'Low-HVA', 'High', 'Moderate', 'Low'].include? ENV['BASELINE'] || ENV['BASELINE'].nil? %>
+    value: 0
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
+  - name: password_history # SV-235137
+    desc: "Number of subsequent account password changes that must occur before the password can be reused"
+    type: Numeric
+    <% if ['High-HVA', 'Moderate-HVA', 'Low-HVA'].include? ENV['BASELINE'] %>
+    value: 4294967295
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
+  - name: max_password_lifetime # SV-235137
+    desc: "Number of days that defined the password lifetime"
+    type: Numeric
+    <% if ['High-HVA', 'Moderate-HVA', 'Low-HVA'].include? ENV['BASELINE'] %>
+    value: 60
+    <% end %>
+    profile: oracle-mysql-8-stig-baseline
+
+  - name: org_guidance # SV-235142 SV-235194
+    desc: "Name of the organization that provides security configuration and implementation guidance"
+    type: String
+    value: "CMS ARS 5 CM-06 guidance"
+    profile: oracle-mysql-8-stig-baseline
+
+  - name: overlay_controls
+    desc: 'List of inapplicable controls/requirements in ARS 5.0 based on the system categorization'
+    type: Array
+    <% if ENV['BASELINE'] == 'High-HVA' %>
+    value:
+      - "SV-235180" # AC - 6 (8)
+    <% elsif ENV['BASELINE'] == 'High' %>
+    value: 
+      - "SV-235180" # AC - 6 (8)
+    <% elsif ENV['BASELINE'] == 'Moderate-HVA' %>
+    value:
+      - "SV-235180" # AC - 6 (8)
+      - "SV-235096" # AC - 10
+      - "SV-235175" # AU - 5 (1)
+      - "SV-235176" # AU - 5 (2)
+      - "SV-235169" # CM - 5 (1)
+      - "SV-235170" # CM - 5 (1)
+    <% elsif ENV['BASELINE'] == 'Moderate' || ENV['BASELINE'].nil? %> # Default
+    value: 
+      - "SV-235180" # AC - 6 (8)
+      - "SV-235096" # AC - 10
+      - "SV-235175" # AU - 5 (1)
+      - "SV-235176" # AU - 5 (2)
+      - "SV-235102" # AU - 10
+      - "SV-235169" # CM - 5 (1)
+      - "SV-235170" # CM - 5 (1)
+      - "SV-235151" # SC - 3
+    <% elsif ENV['BASELINE'] == 'Low-HVA' %>
+    value:
+      - "SV-235095" # AC - 2 (1)
+      - "SV-235180" # AC - 6 (8) 
+      - "SV-235181" # AC - 6 (10)
+      - "SV-235096" # AC - 10
+      - "SV-235185" # AC - 12
+      - "SV-235098" # AU - 3 (1)
+      - "SV-235175" # AU - 5 (1)
+      - "SV-235176" # AU - 5 (2)
+      - "SV-235169" # CM - 5 (1)
+      - "SV-235170" # CM - 5 (1)
+      - "SV-235134" # IA - 5 (2)
+      - "SV-235135" # IA - 5 (2)
+      - "SV-235136" # IA - 5 (2)
+      - "SV-235150" # SC - 2
+      - "SV-235152" # SC - 4
+      - "SV-235153" # SC - 4
+      - "SV-235156" # SI - 10
+      - "SV-235157" # SI - 10
+      - "SV-235158" # SI - 10
+    <% elsif ENV['BASELINE'] == 'Low' %>
+    value:
+      - "SV-235095" # AC - 2 (1)
+      - "SV-235180" # AC - 6 (8)
+      - "SV-235181" # AC - 6 (10)
+      - "SV-235096" # AC - 10
+      - "SV-235185" # AC - 12
+      - "SV-235098" # AU - 3 (1)
+      - "SV-235175" # AU - 5 (1)
+      - "SV-235176" # AU - 5 (2)
+      - "SV-235102" # AU - 10
+      - "SV-235169" # CM - 5 (1)
+      - "SV-235170" # CM - 5 (1)
+      - "SV-235167" # CM - 7 (1)
+      - "SV-235134" # IA - 5 (2)
+      - "SV-235135" # IA - 5 (2)
+      - "SV-235136" # IA - 5 (2)
+      - "SV-235150" # SC - 2
+      - "SV-235151" # SC - 3
+      - "SV-235152" # SC - 4
+      - "SV-235153" # SC - 4
+      - "SV-235155" # SC - 28
+      - "SV-235192" # SC - 28 (1)
+      - "SV-235193" # SC - 28 (1)
+      - "SV-235156" # SI - 10
+      - "SV-235157" # SI - 10
+      - "SV-235158" # SI - 10
+    <% end %>
+  
