@@ -2,6 +2,8 @@
 
 InSpec profile overlay to validate the secure configuration of Oracle MySQL 8 against [DISA's](https://public.cyber.mil/stigs/) Oracle MySQL 8 STIG Version 1 Release 1 tailored for CMS ARS 5.0.
 
+#### AWS-RDS-Ready: Profile updated to adapt checks when the running against an AWS RDS instance of MySQL, by setting the input *"aws_rds"* to *"true"*. See [Inputs: Tailoring your scan to Your Environment](#inputs-tailoring-your-scan-to-your-environment) and [MySQL client setup](#mysql-client-setup) below.
+
 ## Getting Started  
 ### InSpec (CINC-auditor) setup
 For maximum flexibility/accessibility, we’re moving to “cinc-auditor”, the open-source packaged binary version of Chef InSpec, compiled by the CINC (CINC Is Not Chef) project in coordination with Chef using Chef’s always-open-source InSpec source code. For more information: https://cinc.sh/
@@ -27,6 +29,48 @@ cinc-auditor -v
 
 Latest versions and other installation options are available at https://cinc.sh/start/auditor/.
 
+### MySQL client setup
+
+To run the MySQL profile against an AWS RDS Instance, CINC-auditor expects the mysql client to be readily available on the same runner system it is installed on.
+ 
+For example, to install the mysql client on a Linux runner host:
+```
+sudo yum install mysql-community-server
+```
+To confirm successful install of mysql:
+```
+which mysql
+```
+> sample output:  _/usr/bin/mysql_
+```
+mysql –-version
+```		
+> sample output:  *mysql  Ver 8.0.32 for Linux on x86_64 (MySQL Community Server - GPL)*
+
+Test mysql connectivity to your AWS RDS instance from your InSpec runner host:
+```
+mysql -u <master user> -p<password>  -h <endpoint>.amazonaws.com -P 3306
+```		
+> sample output:
+>
+>  *Welcome to the MySQL monitor.  Commands end with ; or \g.*
+>  *Your MySQL connection id is 4035*
+>  *Server version: 8.0.32 Source distribution*
+>
+>  *Copyright (c) 2000, 2023, Oracle and/or its affiliates.*
+>
+>  *Oracle is a registered trademark of Oracle Corporation and/or its*
+>  *affiliates. Other names may be trademarks of their respective*
+>  *owners.*
+>
+>  *Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.*
+>
+>  *mysql> quit*
+>
+>  *Bye*
+
+For installation of mysql client on other operating systems for your runner host, visit https://www.mysql.com/
+
 ## Specify your BASELINE system categization as an environment variable:
 ### (if undefined defaults to Moderate baseline)
 
@@ -48,7 +92,10 @@ The following inputs must be configured in an inputs ".yml" file for the profile
 ### Inputs You May Tailor (with *example* values you should tailor to your environment):
 
 ```yaml
-
+#Description: State if your database is an AWS RDS instance
+#Value type: Boolean
+aws_rds: False
+ 
 #Description: privileged account username MySQL DB Server
 #Value Type: string
 user: root
