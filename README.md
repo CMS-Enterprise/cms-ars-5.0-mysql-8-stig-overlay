@@ -2,7 +2,7 @@
 
 InSpec profile overlay to validate the secure configuration of Oracle MySQL 8 against [DISA's](https://public.cyber.mil/stigs/) Oracle MySQL 8 STIG Version 1 Release 1 tailored for CMS ARS 5.0.
 
-#### AWS-RDS-Ready: Profile updated to adapt checks when the running against an AWS RDS instance of MySQL, by setting the input *"aws_rds"* to *"true"*. See [Inputs: Tailoring your scan to Your Environment](#inputs-tailoring-your-scan-to-your-environment) and [MySQL client setup](#mysql-client-setup) below.
+#### AWS-RDS-Ready: Profile updated to adapt checks when the running against an AWS RDS instance of MySQL, by setting the input `aws_rds` to `true`. See [Inputs: Tailoring your scan to Your Environment](#inputs-tailoring-your-scan-to-your-environment) and [MySQL client setup](#mysql-client-setup) below.
 
 ## Getting Started  
 ### InSpec (CINC-auditor) setup
@@ -94,7 +94,7 @@ The following inputs must be configured in an inputs ".yml" file for the profile
 ```yaml
 #Description: State if your database is an AWS RDS instance
 #Value type: Boolean
-aws_rds: False
+aws_rds: false
  
 #Description: privileged account username MySQL DB Server
 #Value Type: string
