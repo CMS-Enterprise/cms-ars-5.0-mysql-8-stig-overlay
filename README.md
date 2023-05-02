@@ -184,7 +184,7 @@ minimum_mysql_version: 8.0.25
 
 ```
 
-## Running This Overlay Directly from Github
+## Running This Overlay Directly from Github against a hosted (non AWS RDS) instance of MySQL 8: 
 
 Against a remote target using ssh (i.e., cinc-auditor installed on a separate runner host)
 ```bash
@@ -206,6 +206,12 @@ Against a _**docker-containerized**_ instance (i.e., cinc-auditor installed on t
 ```
 cinc-auditor exec https://github.com/cms-enterprise/cms-ars-5.0-oracle-mysql-8-stig-overlay/archive/main.tar.gz -t docker://<instance_id> --input-file=<path_to_your_inputs_file/name_of_your_inputs_file.yml> --reporter=cli json:<path_to_your_output_file/name_of_your_output_file.json>
 ```
+## Running This Overlay Directly from Github against an AWS RDS instance of MySQL 8: 
+
+```bash
+cinc-auditor exec https://github.com/cms-enterprise/cms-ars-5.0-oracle-mysql-8-stig-overlay/archive/main.tar.gz --input-file <path_to_your_input_file/name_of_your_input_file.yml> --reporter=cli json:<path_to_your_output_file/name_of_your_output_file.json> 
+```
+
 
 ### Different Run Options
 
