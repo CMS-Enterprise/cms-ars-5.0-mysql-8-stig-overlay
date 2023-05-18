@@ -79,10 +79,10 @@ For installation of mysql client on other operating systems for your runner host
 # (if undefined defaults to Moderate baseline)
 
 on linux:
-BASELINE=High
+BASELINE=Moderate
 
 on Powershell:
-$env:BASELINE="High"
+$env:BASELINE="Moderate"
 ```
 
 ## Inputs: Tailoring your scan to Your Environment
@@ -128,11 +128,15 @@ org_appoved_cert_issuer: CMS Root CA
 #Value Type: array
 pki_exception_users: ["healthchecker"]
 
+#Description: List of documented authorized local mysql accounts. # SV-235095
+#Value Type: array
+mysql_authorized_local_users: ['root']
+
 #Description: List of documented accounts allowed to login with password.
 #Value Type: array
 authorized_password_users: ["healthchecker"]
 
-#Description: List of documented mysql accounts with administrative previlleges.
+#Description: List of documented mysql accounts with administrative privileges.
 #Value Type: array
 mysql_administrative_users: ["root"]
 
