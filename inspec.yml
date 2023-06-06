@@ -10,7 +10,7 @@ inspec_version: ">= 4.0"
 
 depends:
   - name: oracle-mysql-8-stig-baseline
-    url: https://github.com/mitre/oracle-mysql-8-stig-baseline/archive/aws_rds_adjustments.tar.gz
+    url: https://github.com/mitre/oracle-mysql-8-stig-baseline/archive/main.tar.gz
 
 inputs:
   - name: system_categorization
