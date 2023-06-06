@@ -71,7 +71,7 @@ mysql -u <master user> -p<password>  -h <endpoint>.amazonaws.com -P 3306
 
 For installation of mysql client on other operating systems for your runner host, visit https://www.mysql.com/
 
-## Specify your BASELINE system categization as an environment variable:
+## Specify your BASELINE system categorization as an environment variable:
 ### (if undefined defaults to Moderate baseline)
 
 ```
